@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>Ethereum Wallet</title>
+    </head>
+    <body>
+      <div id="Step1">
+        <h2>Import your JSON key</h2>
+        <input type="file" id="walletFile" name="walletImportJSON" />
+        <input type="password" id="walletPassword" />
+        <button type="submit" id="walletSubmit">Submit</button>
+      </div>
+
+      <div id="Step2" style="display: none">
+        <h1 id="walletStatus">Connecting wallet...</h1>
+        <p>Adress: <span id="walletAddress">...</span></p>
+        <p>Balance: <span id="walletBalance">...</span></p>
+
+        <input type="text" id="transactionToAddress" placeholder="To (Wallet address)"/>
+        <input type="text" id="transactionAmount" placeholder="Value (Ether)" />
+        <button type="submit" id="transactionSubmit">Submit</button>
+      </div>
+
+      <script charset="utf-8"
+        src="https://cdn.ethers.io/scripts/ethers-v2.min.js"
+        type="text/javascript">
+      </script>
+
+      <script type="text/javascript">
+        InfuraToken = ''; // need token? go to infura.io
+
+        var WalletSubmit = document.getElementById('walletSubmit');
+        WalletSubmit.addEventListener('click', ImportWalletJSONFile, false);
+
+        function ImportWalletJSONFile() {
+          var WalletJSONInput = document.getElementById('walletFile');
+          var file = WalletJSONInput.files[0];
+
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            UnlockWallet(e.target.result)
+          }
+
+          reader.readAsText(file);
+        }
+
+        // Unlock from Geth keystore file :3
+        function UnlockWallet(data) {
+          // Bad code
+          document.getElementById('Step1').style.display = 'none';
+          document.getElementById('Step2').style.display = 'block';
+
+          var password = document.getElementById('walletPassword').value;
+
+          // Opening wallet
+          var walletPromise = ethers.Wallet.fromEncryptedWallet(data, password).then(function(wallet) {
+            // Connect to Infura!
+            var providers = ethers.providers;
+            provider = new providers.InfuraProvider(providers.networks.rinkeby, InfuraToken);
+
+            activeWallet = wallet;
+            activeWallet.provider = provider;
+
+            document.getElementById('walletStatus').innerHTML = 'Connected!';
+            document.getElementById('walletAddress').innerHTML = activeWallet.address;
+
+            WalletUpdateBalance();
+          });
+        }
+
+        function WalletUpdateBalance() {
+          provider.getBalance(activeWallet.address).then(function(balance) {
+            var etherBalance = ethers.utils.formatEther(balance);
+            document.getElementById('walletBalance').innerHTML = etherBalance;
+          });
+        }
+
+        var TransactionSubmit = document.getElementById('transactionSubmit');
+        TransactionSubmit.addEventListener('click', sendTransaction, false);
+
+        function sendTransaction() {
+          var inputTransactionToAddress = document.getElementById('transactionToAddress');
+          var inputTransactionAmount = document.getElementById('transactionAmount');
+
+          var targetAddress = ethers.utils.getAddress(inputTransactionToAddress.value);
+          var amountWei = ethers.utils.parseEther(inputTransactionAmount.value);
+
+          activeWallet.send(targetAddress, amountWei).then(function() {
+              alert('Success!');
+          });
+        }
+      </script>
+    </body>
+</html>
