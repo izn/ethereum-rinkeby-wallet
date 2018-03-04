@@ -3,21 +3,28 @@
         <title>Ethereum Wallet</title>
     </head>
     <body>
-      <div id="Step1">
-        <h2>Import your JSON key</h2>
-        <input type="file" id="walletFile" name="walletImportJSON" />
+      <div id="step1">
+        <h1>Import your JSON key</h1>
+        <input type="file" id="walletFile" />
         <input type="password" id="walletPassword" />
         <button type="submit" id="walletSubmit">Submit</button>
+
+        <div id="WalletConnectionStatus"></div>
       </div>
 
-      <div id="Step2" style="display: none">
-        <h1 id="walletStatus">Connecting wallet...</h1>
+      <div id="step2" style="display: none">
+        <h1>Connected!</h1>
         <p>Adress: <span id="walletAddress">...</span></p>
         <p>Balance: <span id="walletBalance">...</span></p>
 
+        <h2>Transaction</h2>
         <input type="text" id="transactionToAddress" placeholder="To (Wallet address)"/>
         <input type="text" id="transactionAmount" placeholder="Value (Ether)" />
         <button type="submit" id="transactionSubmit">Submit</button>
+
+        <h2>Contract</h2>
+        <input type="file" id="contractFile" />
+        <button type="submit" id="contractSubmit">Submit</button>
       </div>
 
       <script charset="utf-8"
@@ -26,68 +33,121 @@
       </script>
 
       <script type="text/javascript">
-        InfuraToken = ''; // need token? go to infura.io
+        var Provider = {
+          token: '', // need token? go to infura.io
+          network: ethers.providers.networks.rinkeby,
 
-        var WalletSubmit = document.getElementById('walletSubmit');
-        WalletSubmit.addEventListener('click', ImportWalletJSONFile, false);
-
-        function ImportWalletJSONFile() {
-          var WalletJSONInput = document.getElementById('walletFile');
-          var file = WalletJSONInput.files[0];
-
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            UnlockWallet(e.target.result)
+          get: function() {
+            return new ethers.providers.InfuraProvider(this.network, this.token);
           }
+        };
 
-          reader.readAsText(file);
-        }
+        var Wallet = {
+            activeWallet: null,
 
-        // Unlock from Geth keystore file :3
-        function UnlockWallet(data) {
-          // Bad code
-          document.getElementById('Step1').style.display = 'none';
-          document.getElementById('Step2').style.display = 'block';
+            inputFile: document.querySelector('#walletFile'),
+            inputPasswd: document.querySelector('#walletPassword'),
+            inputSubmit: document.querySelector('#walletSubmit'),
+            statusWrapper: document.querySelector('#WalletConnectionStatus'),
+            addressWrapper: document.querySelector('#walletAddress'),
+            balanceWrapper: document.querySelector('#walletBalance'),
 
-          var password = document.getElementById('walletPassword').value;
+            init: function() {
+              this.inputSubmit.addEventListener('click', this.import, false);
+            },
 
-          // Opening wallet
-          var walletPromise = ethers.Wallet.fromEncryptedWallet(data, password).then(function(wallet) {
-            // Connect to Infura!
-            var providers = ethers.providers;
-            provider = new providers.InfuraProvider(providers.networks.rinkeby, InfuraToken);
+            import: function() {
+              var file = Wallet.inputFile.files[0];
 
-            activeWallet = wallet;
-            activeWallet.provider = provider;
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                Wallet.unlock(e.target.result)
+              }
 
-            document.getElementById('walletStatus').innerHTML = 'Connected!';
-            document.getElementById('walletAddress').innerHTML = activeWallet.address;
+              reader.readAsText(file);
+            },
 
-            WalletUpdateBalance();
-          });
-        }
+            unlock: function(data) {
+              var password = this.inputPasswd.value;
 
-        function WalletUpdateBalance() {
-          provider.getBalance(activeWallet.address).then(function(balance) {
-            var etherBalance = ethers.utils.formatEther(balance);
-            document.getElementById('walletBalance').innerHTML = etherBalance;
-          });
-        }
+              Wallet.statusWrapper.innerHTML = "Connecting..."
 
-        var TransactionSubmit = document.getElementById('transactionSubmit');
-        TransactionSubmit.addEventListener('click', sendTransaction, false);
+              // Opening wallet
+              var walletPromise = ethers.Wallet.fromEncryptedWallet(data, password).then(function(wallet) {
+                // Bad code, but who cares?
+                document.querySelector('#step1').style.display = 'none';
+                document.querySelector('#step2').style.display = 'block';
 
-        function sendTransaction() {
-          var inputTransactionToAddress = document.getElementById('transactionToAddress');
-          var inputTransactionAmount = document.getElementById('transactionAmount');
+                Wallet.activeWallet = wallet;
+                Wallet.activeWallet.provider = Provider.get();
 
-          var targetAddress = ethers.utils.getAddress(inputTransactionToAddress.value);
-          var amountWei = ethers.utils.parseEther(inputTransactionAmount.value);
+                Wallet.addressWrapper.innerHTML = Wallet.activeWallet.address;
 
-          activeWallet.send(targetAddress, amountWei).then(function() {
-              alert('Success!');
-          });
-        }
+                Wallet.updateBalance();
+              }).catch(function(e) {
+                Wallet.statusWrapper.innerHTML = e;
+              })
+            },
+
+            updateBalance: function() {
+              Provider.get().getBalance(this.activeWallet.address).then(function(balance) {
+                var etherBalance = ethers.utils.formatEther(balance);
+                Wallet.balanceWrapper.innerHTML = etherBalance;
+              });
+            }
+        };
+
+        var Transaction = {
+          inputSubmit: document.querySelector('#transactionSubmit'),
+          inputAddress: document.querySelector('#transactionToAddress'),
+          inputAmount: document.querySelector('#transactionAmount'),
+
+          init: function() {
+            this.inputSubmit.addEventListener('click', this.send, false);
+          },
+
+          send: function() {
+            var targetAddress = ethers.utils.getAddress(this.inputAddress.value);
+            var amountWei = ethers.utils.parseEther(this.inputAmount.value);
+
+            Wallet.activeWallet.send(targetAddress, amountWei).then(function() {
+                alert('Success!');
+            });
+          }
+        };
+
+        var Contract = {
+          activeContract: null,
+          abi: null,
+
+          inputFile: document.querySelector('#contractFile'),
+          inputSubmit: document.querySelector('#contractSubmit'),
+
+          init: function() {
+            this.inputSubmit.addEventListener('click', this.import, false);
+          },
+
+          import: function() {
+            var file = Contract.inputFile.files[0];
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              Contract.abi = JSON.parse(e.target.result).abi;
+              Contract.send();
+            }
+
+            reader.readAsText(file);
+          },
+
+          send: function() {
+            console.log(Contract.abi);
+            this.activeContract = new ethers.Contract(Wallet.activeWallet.address, Contract.abi, Provider.get());
+          }
+        };
+
+        Wallet.init();
+        Transaction.init();
+        Contract.init();
       </script>
     </body>
 </html>
