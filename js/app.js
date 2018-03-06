@@ -80,7 +80,7 @@ const Transaction = {
   inputAmount: document.querySelector('#transactionAmount'),
 
   init() {
-    this.inputSubmit.addEventListener('click', this.send, false);
+    this.inputSubmit.addEventListener('click', this.send.bind(this), false);
   },
 
   send() {
@@ -111,7 +111,7 @@ const Contract = {
     reader.onload = e => {
       Contract.abi = JSON.parse(e.target.result).abi;
       Contract.send();
-    }
+    };
 
     reader.readAsText(file);
   },
