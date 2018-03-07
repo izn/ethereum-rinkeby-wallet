@@ -1,3 +1,5 @@
+import ethers from 'ethers';
+
 const Provider = {
   token: '', // need token? go to infura.io
   network: ethers.providers.networks.rinkeby,
@@ -26,8 +28,8 @@ const Wallet = {
 
     const reader = new FileReader();
     reader.onload = e => {
-      Wallet.unlock(e.target.result)
-    }
+      Wallet.unlock(e.target.result);
+    };
 
     reader.readAsText(file);
   },
@@ -35,10 +37,10 @@ const Wallet = {
   unlock(data) {
     let password = this.inputPasswd.value;
 
-    Wallet.statusWrapper.innerHTML = "Connecting..."
+    Wallet.statusWrapper.innerHTML = "Connecting...";
 
     // Opening wallet
-    const walletPromise = ethers.Wallet.fromEncryptedWallet(data, password).then(wallet => {
+    ethers.Wallet.fromEncryptedWallet(data, password).then(wallet => {
       // Bad code, but who cares?
       document.querySelector('#step1').style.display = 'none';
       document.querySelector('#step2').style.display = 'block';
@@ -62,6 +64,7 @@ const Wallet = {
   }
 };
 
+/*
 var Signer = {
   custom: function(transaction) {
     let sign = Wallet.activeWallet.sign(transaction);
@@ -73,6 +76,7 @@ var Signer = {
     }
   }
 };
+*/
 
 const Transaction = {
   inputSubmit: document.querySelector('#transactionSubmit'),
@@ -88,7 +92,7 @@ const Transaction = {
     let amountWei = ethers.utils.parseEther(this.inputAmount.value);
 
     Wallet.activeWallet.send(targetAddress, amountWei).then(() => {
-      alert('Success!');
+      window.alert('Success!');
     });
   }
 };

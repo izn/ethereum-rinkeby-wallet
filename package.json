@@ -1,0 +1,29 @@
+{
+  "name": "ethereum-rinkeby-wallet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izn/ethereum-rinkeby-wallet.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/izn/ethereum-rinkeby-wallet/issues"
+  },
+  "homepage": "https://github.com/izn/ethereum-rinkeby-wallet#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.0.6",
+    "webpack": "^4.1.1",
+    "webpack-dev-server": "^3.1.0"
+  },
+  "dependencies": {
+    "ethers": "^3.0.4",
+    "webpack-cli": "^2.0.10"
+  }
+}
