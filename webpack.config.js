@@ -1,8 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SRC = path.resolve(__dirname, 'src/app.js');
 
-module.exports = {
-  entry: './src/app.js',
+config = {
+  entry: SRC,
+  target: 'web',
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
     index: 'index.html'
@@ -11,11 +14,24 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html'
     })
   ],
-  target: 'web'
+  module: {
+    rules: [{
+      test: /\.(scss)$/i,
+      use: [
+        { loader: 'style-loader' },
+        { loader: 'css-loader' },
+        { loader: 'sass-loader' }
+      ]
+    }, {
+      test: /\.(woff2?|ttf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
+      loader: 'url-loader?limit=100000'
+    }]
+  }
 };
+
+module.exports = config;
