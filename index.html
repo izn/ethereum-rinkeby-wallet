@@ -1,30 +1,137 @@
-<html>
-    <head>
-        <title>Ethereum Wallet</title>
-    </head>
-    <body>
-      <div id="step1">
-        <h1>Import your JSON key</h1>
-        <input type="file" id="walletFile" />
-        <input type="password" id="walletPassword" />
-        <button type="submit" id="walletSubmit">Submit</button>
+<!DOCTYPE html>
+  <head>
+      <title>Ethereum Wallet</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">
+          Ethereum Web Wallet
+        </h1>
 
-        <div id="WalletConnectionStatus"></div>
+        <div id="step1">
+          <div class="field">
+            <label class="label">Import your JSON key</label>
+            <div class="file has-name is-fullwidth">
+              <label class="file-label">
+                <input class="file-input" type="file" id="walletFile" />
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose a file…
+                  </span>
+                </span>
+                <span class="file-name">
+                  ...
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <input type="password" class="input" id="walletPassword" />
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <button type="submit" class="button is-primary" id="walletSubmit">Submit</button>
+            </div>
+          </div>
+
+          <div id="WalletConnectionStatus"></div>
+        </div>
+
+        <div id="step2" style="display: none">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Wallet
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <p>Adress: <span id="walletAddress">...</span></p>
+                <p>Balance: Ξ <span id="walletBalance">...</span></p>
+              </div>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="columns">
+              <div class="column">
+                <div class="card">
+                  <header class="card-header">
+                    <p class="card-header-title">
+                      Transaction
+                    </p>
+                  </header>
+                  <div class="card-content">
+                    <div class="content">
+                      <div class="field">
+                        <p class="control has-icons-left">
+                          <input class="input" id="transactionToAddress" type="text" placeholder="To (Wallet address)">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                          </span>
+                        </p>
+                      </div>
+
+                      <div class="field">
+                        <p class="control has-icons-left">
+                          <input class="input" id="transactionAmount" type="text" placeholder="Value (Ether)">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-dollar-sign"></i>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <footer class="card-footer">
+                    <a href="#" class="card-footer-item" id="transactionSubmit">Transfer</a>
+                  </footer>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="card">
+                  <header class="card-header">
+                    <p class="card-header-title">
+                      Contract
+                    </p>
+                  </header>
+                  <div class="card-content">
+                    <div class="content">
+                      <div class="file has-name is-fullwidth">
+                        <label class="file-label">
+                          <input class="file-input" type="file" id="contractFile" />
+                          <span class="file-cta">
+                            <span class="file-icon">
+                              <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                              Choose a file…
+                            </span>
+                          </span>
+                          <span class="file-name">
+                            ...
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <footer class="card-footer">
+                    <a href="#" class="card-footer-item" id="contractSubmit">Run</a>
+                  </footer>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
-
-      <div id="step2" style="display: none">
-        <h1>Connected!</h1>
-        <p>Adress: <span id="walletAddress">...</span></p>
-        <p>Balance: <span id="walletBalance">...</span></p>
-
-        <h2>Transaction</h2>
-        <input type="text" id="transactionToAddress" placeholder="To (Wallet address)"/>
-        <input type="text" id="transactionAmount" placeholder="Value (Ether)" />
-        <button type="submit" id="transactionSubmit">Submit</button>
-
-        <h2>Contract</h2>
-        <input type="file" id="contractFile" />
-        <button type="submit" id="contractSubmit">Submit</button>
-      </div>
-    </body>
+    </section>
+  </body>
 </html>
