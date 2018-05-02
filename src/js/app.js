@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import Wallet from './Wallet.js';
 import Transaction from './Transaction.js';
 import Contract from './Contract.js';

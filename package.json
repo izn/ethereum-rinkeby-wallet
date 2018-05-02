@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "build": "parcel build index.html",
+    "start": "parcel watch index.html"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,15 @@
   },
   "homepage": "https://github.com/izn/ethereum-rinkeby-wallet#readme",
   "devDependencies": {
-    "html-webpack-plugin": "^3.0.6",
-    "webpack": "^4.1.1",
-    "webpack-dev-server": "^3.1.0"
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "node-sass": "^4.7.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.4",
+    "bulma": "^0.6.2",
     "ethers": "^3.0.4",
-    "webpack-cli": "^2.0.10"
+    "ncp": "^2.0.0"
   }
 }
