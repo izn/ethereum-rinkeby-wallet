@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "parcel build index.html",
-    "start": "parcel watch index.html"
+    "build": "node_modules/.bin/parcel build index.html",
+    "start": "node_modules/.bin/parcel index.html"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,8 @@
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "node-sass": "^4.7.2"
+    "node-sass": "^4.7.2",
+    "parcel-bundler": "^1.7.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.4",
