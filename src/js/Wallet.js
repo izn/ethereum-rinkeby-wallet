@@ -30,8 +30,8 @@ const Wallet = {
   unlock(data) {
     let password = this.inputPasswd.value;
 
-    Wallet.statusWrapper.innerHTML = "Connecting...";
-    
+    this.inputSubmit.classList.add('is-loading');
+
     // Opening wallet
     ethers.Wallet
           .fromEncryptedWallet(data, password)
@@ -39,7 +39,7 @@ const Wallet = {
             document.querySelector('#step1').classList.add('is-hidden');
             document.querySelector('#step2').classList.remove('is-hidden');
 
-            Wallet.activeWallet = wallet;    
+            Wallet.activeWallet = wallet;
 
             const Provider = await ProviderPromise;
 
@@ -48,7 +48,10 @@ const Wallet = {
             Wallet.addressWrapper.innerHTML = Wallet.activeWallet.address;
 
             Wallet.updateBalance();
-          }).catch(e => Wallet.statusWrapper.innerHTML = e);
+          }).catch(e => {
+            this.inputSubmit.classList.remove('is-loading');
+            Wallet.statusWrapper.innerHTML = e;
+          });
   },
 
   async updateBalance() {
