@@ -27,9 +27,9 @@ const Contract = {
   },
 
   send() {
-    window.activeContract = new ethers.Contract(Wallet.activeWallet.address, Contract.abi, Provider.get());
+    this.activeContract = new ethers.Contract(Wallet.activeWallet.address, Contract.abi, Provider.get());
 
-    for (var func in window.activeContract.functions) {
+    for (var func in this.activeContract.functions) {
       if (func == undefined) continue;
 
       var option = document.createElement('option');
