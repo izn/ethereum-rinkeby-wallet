@@ -28,14 +28,15 @@ const Contract = {
 
   send() {
     window.activeContract = new ethers.Contract(Wallet.activeWallet.address, Contract.abi, Provider.get());
-    // for (func in window.activeContract.functions) {
-    //   if (func == undefined) continue;
-    //
-    //   var option = document.createElement('option');
-    //   option.text = func;
-    //
-    //   this.listFuncSelect.add(option);
-    // }
+
+    for (var func in window.activeContract.functions) {
+      if (func == undefined) continue;
+
+      var option = document.createElement('option');
+      option.text = func;
+
+      this.listFuncSelect.add(option);
+    }
   }
 };
 
