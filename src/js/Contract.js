@@ -8,6 +8,7 @@ const Contract = {
 
   inputFile: document.querySelector('#contractFile'),
   inputSubmit: document.querySelector('#contractSubmit'),
+  listFuncSelect: document.querySelector('#contractListFunctions'),
 
   init() {
     this.inputSubmit.addEventListener('click', this.import, false);
@@ -26,7 +27,15 @@ const Contract = {
   },
 
   send() {
-    this.activeContract = new ethers.Contract(Wallet.activeWallet.address, Contract.abi, Provider.get());
+    window.activeContract = new ethers.Contract(Wallet.activeWallet.address, Contract.abi, Provider.get());
+    // for (func in window.activeContract.functions) {
+    //   if (func == undefined) continue;
+    //
+    //   var option = document.createElement('option');
+    //   option.text = func;
+    //
+    //   this.listFuncSelect.add(option);
+    // }
   }
 };
 
