@@ -9,44 +9,50 @@
     <link rel="stylesheet" href="src/scss/app.scss">
   </head>
   <body>
-    <div class="container">
-      <h1 class="title">
-        Ethereum Web Wallet
-      </h1>
+    <section id="step1" class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="column is-4 is-offset-4">
+            <h3 class="title">Ethereum Web Wallet</h3>
+            <p class="subtitle has-text-grey">Import your JSON Wallet.</p>
+            <div class="box">
+              <form id="walletForm" method="get" action="/">
+                <div class="field">
+                  <div class="control">
+                    <div class="file has-name is-fullwidth">
+                      <label class="file-label">
+                        <input class="file-input" type="file" id="walletFile" />
 
-      <div id="step1">
-        <div class="field">
-          <label class="label" for="walletFile">Import your JSON key</label>
+                        <span class="file-cta">
+                          <span class="file-icon"><i class="fas fa-upload"></i></span>
+                          <span class="file-label">Choose a file…</span>
+                        </span>
 
-          <div class="file has-name is-fullwidth">
-            <label class="file-label">
-              <input class="file-input" type="file" id="walletFile" />
+                        <span class="file-name">...</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
-              <span class="file-cta">
-                <span class="file-icon"><i class="fas fa-upload"></i></span>
-                <span class="file-label">Choose a file…</span>
-              </span>
+                <div class="field">
+                  <div class="control">
+                    <input id="walletPassword" class="input" type="password" placeholder="Your Password">
+                  </div>
+                </div>
 
-              <span class="file-name">...</span>
-            </label>
+                <button type="submit" id="walletSubmit" class="button is-block is-info is-fullwidth">Submit</button>
+                <p id="WalletConnectionStatus"></p>
+              </form>
+            </div>
           </div>
         </div>
-
-        <div class="field">
-          <label class="label" for="walletPassword">Password</label>
-          <input type="password" class="input" id="walletPassword" />
-        </div>
-
-        <div class="field">
-          <div class="control">
-            <button type="submit" class="button is-primary" id="walletSubmit">Submit</button>
-          </div>
-        </div>
-
-        <div id="WalletConnectionStatus"></div>
       </div>
+    </section>
 
+    <div class="container">
       <div id="step2" class="is-hidden">
+        <h1 class="title">Ethereum Web Wallet</h1>
+
         <div class="columns">
           <div class="column">
             <div class="card">

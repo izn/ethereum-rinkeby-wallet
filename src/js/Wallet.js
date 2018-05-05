@@ -4,6 +4,7 @@ const ProviderPromise = import('./Provider.js');
 const Wallet = {
   activeWallet: null,
 
+  form: document.querySelector('#walletForm'),
   inputFile: document.querySelector('#walletFile'),
   inputPasswd: document.querySelector('#walletPassword'),
   inputSubmit: document.querySelector('#walletSubmit'),
@@ -12,7 +13,11 @@ const Wallet = {
   balanceWrapper: document.querySelector('#walletBalance'),
 
   init() {
-    Wallet.inputSubmit.addEventListener('click', Wallet.import.bind(Wallet), false);
+    Wallet.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      Wallet.import();
+    });
+
     Wallet.inputFile.addEventListener('change', () => (Wallet.inputFile.files.length && (Wallet.inputFile.innerHTML = Wallet.inputFile.files[0].name)));
   },
 
