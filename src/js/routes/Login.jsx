@@ -1,7 +1,12 @@
 import ethers from 'ethers';
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import {
+  Box, Button, Heading,
+  Columns, Column, Container,
+  Notification, Hero, HeroBody
+} from 'react-bulma-components';
 
 export default class Login extends Component {
   constructor(props) {
@@ -53,62 +58,73 @@ export default class Login extends Component {
 
   render () {
       return (
-        <section className="hero is-fullheight">
-          <div className="hero-body">
-            <div className="container has-text-centered">
-              <div className="column is-4 is-offset-4">
-                <h3 className="title">Ethereum Web Wallet</h3>
-                <p className="subtitle has-text-grey">Import your JSON Wallet.</p>
-                <div className="box">
-                  <form id="walletForm" method="get" action="/" onSubmit={this.handleSubmit}>
-                    <div className="field">
-                      <div className="control">
-                        <div className="file has-name is-fullwidth">
-                          <label className="file-label">
-                            <input
-                              type="file"
-                              className="file-input"
-                              id="walletFile"
-                              ref={input => {
-                                this.inputFile = input;
-                              }}
-                            />
-                            <span className="file-cta">
-                              <span className="file-icon"><i className="fas fa-upload"></i></span>
-                              <span className="file-label">Choose a file…</span>
-                            </span>
-                            <span className="file-name">...</span>
-                          </label>
+        <Hero size="fullheight">
+          <Hero.Body>
+            <Container style={{textAlign: "center"}}>
+              <Columns>
+                <Columns.Column size={6} offset={3}>
+                  <Heading size={3}>Ethereum Web Wallet</Heading>
+                  <Heading subtitle>Import your JSON Wallet.</Heading>
+                  <Box>
+                    <form id="walletForm" method="get" action="/" onSubmit={this.handleSubmit}>
+                      <div className="field">
+                        <div className="control">
+                          <div className="file has-name is-fullwidth">
+                            <label className="file-label">
+                              <input
+                                type="file"
+                                className="file-input"
+                                id="walletFile"
+                                ref={input => {
+                                  this.inputFile = input;
+                                }}
+                              />
+                              <span className="file-cta">
+                                <span className="file-icon"><i className="fas fa-upload"></i></span>
+                                <span className="file-label">Choose a file…</span>
+                              </span>
+                              <span className="file-name">...</span>
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="field">
-                      <div className="control">
-                        <input
-                          type="password"
-                          id="walletPassword"
-                          className="input"
-                          placeholder="Your Password"
-                          ref={(input) => this.inputPassword = input}
-                        />
+                      <div className="field">
+                        <div className="control">
+                          <input
+                            type="password"
+                            id="walletPassword"
+                            className="input"
+                            placeholder="Your Password"
+                            ref={(input) => this.inputPassword = input}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <button
-                      type="submit"
-                      id="walletSubmit"
-                      className={`button is-block is-info is-fullwidth ${this.state.loading ? 'is-loading' : ''}`}  >
-                      Submit
-                    </button>
+                      <Button
+                        submit
+                        color="info"
+                        loading={this.state.loading}
+                        fullwidth
+                        id="walletSubmit"
+                      >
+                        Submit
+                      </Button>
 
-                    <p id="WalletConnectionStatus">{this.state.status}</p>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+                      {
+                        this.state.status
+                        ? <Notification>
+                            {this.state.status}
+                          </Notification>
+                        : null
+                      }
+                    </form>
+                  </Box>
+                </Columns.Column>
+              </Columns>
+            </Container>
+          </Hero.Body>
+        </Hero>
       )
   }
 }

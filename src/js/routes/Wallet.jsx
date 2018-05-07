@@ -2,6 +2,10 @@ import ethers from 'ethers';
 import Provider from '../helpers/Provider';
 
 import React, {Component} from 'react';
+import {
+  Box, Button, Card, Content, Heading,
+  Columns, Column, Container
+} from 'react-bulma-components';
 
 export default class Wallet extends Component {
   constructor(props) {
@@ -28,39 +32,35 @@ export default class Wallet extends Component {
 
   render () {
       return (
-        <div className="container">
-          <h1 className="title">Ethereum Web Wallet</h1>
+        <Container>
+          <Heading size={3}>Ethereum Web Wallet</Heading>
 
-          <div className="columns">
-            <div className="column">
-              <div className="card">
-                <header className="card-header">
-                  <p className="card-header-title">
-                    Wallet
-                  </p>
-                </header>
+          <Columns>
+            <Columns.Column>
+              <Card>
+                <Card.Header>
+                  <Card.Header.Title>Wallet</Card.Header.Title>
+                </Card.Header>
 
-                <div className="card-content">
-                  <div className="content">
-                    <p>Adress: <span id="walletAddress">{this.state.address}</span></p>
-                    <p>Balance: <span id="walletBalance">{this.state.balance}</span></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                <Card.Content>
+                  <Content>
+                    <p>Adress: {this.state.address}</p>
+                    <p>Balance: {this.state.balance}</p>
+                  </Content>
+                </Card.Content>
+              </Card>
+            </Columns.Column>
+          </Columns>
 
-          <div className="columns">
-            <div className="column">
-              <div className="card">
-                <header className="card-header">
-                  <p className="card-header-title">
-                    Transaction
-                  </p>
-                </header>
+          <Columns>
+            <Columns.Column>
+              <Card>
+                <Card.Header>
+                  <Card.Header.Title>Transaction</Card.Header.Title>
+                </Card.Header>
 
-                <div className="card-content">
-                  <div className="content">
+                <Card.Content>
+                  <Content>
                     <div className="field">
                       <p className="control has-icons-left">
                         <input className="input" id="transactionToAddress" type="text" placeholder="To (Wallet address)" />
@@ -74,25 +74,23 @@ export default class Wallet extends Component {
                         <span className="icon is-small is-left"><i className="fas fa-dollar-sign"></i></span>
                       </p>
                     </div>
-                  </div>
-                </div>
+                  </Content>
+                </Card.Content>
 
-                <footer className="card-footer">
+                <Card.Footer>
                   <a href="#" className="card-footer-item" id="transactionSubmit">Transfer</a>
-                </footer>
-              </div>
-            </div>
+                </Card.Footer>
+              </Card>
+            </Columns.Column>
 
-            <div className="column">
-              <div className="card">
-                <header className="card-header">
-                  <p className="card-header-title">
-                    Contract
-                  </p>
-                </header>
+            <Columns.Column>
+              <Card>
+                <Card.Header>
+                  <Card.Header.Title>Contract</Card.Header.Title>
+                </Card.Header>
 
-                <div className="card-content">
-                  <div className="content">
+                <Card.Content>
+                  <Content>
                     <div className="field">
                       <div className="file has-name is-fullwidth">
                         <label className="file-label">
@@ -111,16 +109,16 @@ export default class Wallet extends Component {
                         <select id="contractListFunctions"></select>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </Content>
+                </Card.Content>
 
-                <footer className="card-footer">
+                <Card.Footer>
                   <a href="#" className="card-footer-item" id="contractSubmit">Run</a>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </div>
+                </Card.Footer>
+              </Card>
+            </Columns.Column>
+          </Columns>
+        </Container>
       )
   }
 }
