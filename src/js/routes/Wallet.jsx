@@ -17,7 +17,7 @@ export default class Wallet extends Component {
     this.wallet = this.props.location.state.wallet;
 
     this.state = {
-      address: this.wallet.address,
+      wallet: this.wallet,
       balance: ''
     }
 
@@ -47,7 +47,7 @@ export default class Wallet extends Component {
 
                 <Card.Content>
                   <Content>
-                    <p>Adress: {this.state.address}</p>
+                    <p>Adress: {this.state.wallet.address}</p>
                     <p>Balance: {this.state.balance}</p>
                   </Content>
                 </Card.Content>
@@ -57,11 +57,11 @@ export default class Wallet extends Component {
 
           <Columns>
             <Columns.Column>
-              <Transaction />
+              <Transaction wallet={this.wallet} />
             </Columns.Column>
 
             <Columns.Column>
-              <Contract />
+              <Contract wallet={this.wallet} />
             </Columns.Column>
           </Columns>
         </Container>

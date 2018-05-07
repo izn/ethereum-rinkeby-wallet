@@ -1,11 +1,45 @@
-import React, {Component} from 'react';
-import {
-  Card, Content, Heading
-} from 'react-bulma-components';
+import ethers from 'ethers';
+import Provider from '../../helpers/Provider';
+
+import React, { Component } from 'react';
+import { Card, Content, Heading } from 'react-bulma-components';
 
 export default class Contract extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      wallet: this.props.wallet
+    };
+
+    this.importContract = this.importContract.bind(this);
+  }
+
+  importContract() {
+    let file = this.inputFile.files[0];
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      this.setState({
+        abi: JSON.parse(e.target.result).abi
+      });
+
+      this.loadContract();
+    };
+
+    reader.readAsText(file);
+  }
+
+  loadContract() {
+    let activeContract = new ethers.Contract(this.state.wallet.address, this.state.abi, Provider.get());
+
+    this.functionsList = []
+
+    for (let func in activeContract) {
+      this.functionsList.push(
+        <option>{func}</option>
+      );
+    }
   }
 
   render () {
@@ -20,7 +54,13 @@ export default class Contract extends Component {
               <div className="field">
                 <div className="file has-name is-fullwidth">
                   <label className="file-label">
-                    <input className="file-input" type="file" id="contractFile" />
+                    <input
+                      type="file"
+                      className="file-input"
+                      ref={input => {
+                        this.inputFile = input;
+                      }}
+                    />
                     <span className="file-cta">
                       <span className="file-icon"><i className="fas fa-upload"></i></span>
                       <span className="file-label">Choose a file…</span>
@@ -32,7 +72,9 @@ export default class Contract extends Component {
 
               <div className="field">
                 <div className="select is-fullwidth">
-                  <select id="contractListFunctions"></select>
+                  <select>
+                    {this.functionsList}
+                  </select>
                 </div>
               </div>
             </Content>
@@ -40,7 +82,7 @@ export default class Contract extends Component {
 
           <Card.Footer>
             <Card.Footer.Item>
-              <a href="#">Run</a>
+              <a href="#" onClick={this.importContract}>Load</a>
             </Card.Footer.Item>
           </Card.Footer>
         </Card>

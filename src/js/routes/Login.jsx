@@ -1,4 +1,5 @@
 import ethers from 'ethers';
+import Provider from '../helpers/Provider';
 
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
@@ -37,6 +38,7 @@ export default class Login extends Component {
     ethers.Wallet
           .fromEncryptedWallet(data, password)
           .then(async wallet => {
+            wallet.provider = Provider.get();
             browserHistory.push({pathname: '/wallet', state: { wallet: wallet }});
           }).catch(e => {
             this.setState({
