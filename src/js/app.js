@@ -1,10 +1,7 @@
 import 'babel-polyfill';
 
-import Utils from './Utils.js';
-import Wallet from './Wallet.js';
-import Transaction from './Transaction.js';
-import Contract from './Contract.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './containers/App';
 
-Wallet.init();
-Transaction.init();
-Contract.init();
+ReactDOM.render(<App />, document.getElementById('app'))

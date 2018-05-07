@@ -28,7 +28,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.4",
     "bulma": "^0.6.2",
+    "components": "^0.1.0",
     "ethers": "^3.0.4",
-    "ncp": "^2.0.0"
+    "ncp": "^2.0.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-router": "^3.0.5",
+    "react-router-dom": "^4.2.2"
   }
 }
